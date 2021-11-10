@@ -52,8 +52,6 @@ app.use('/schedules', schedulesRouter)
 app.use('/', homeRouter)
 app.use('*', errorRouter)
 
-
-
 app.listen(PORT, () => {
   console.log(`LISTENING AT http://localhost:${PORT}`)
 })

@@ -2,12 +2,8 @@ const express = require('express')
 const db = require('../database')
 const bcrypt = require('bcryptjs')
 const router = express.Router()
-//const flash = require('express-flash')
+)
 
-
-
-//router.use(flash())
-//const { redirectToHome } = require('./middleware/redirect')
 const {
   rearrangeArraySchedule,
   getWorkingDays,
@@ -167,8 +163,8 @@ router.post('/new', (req, res) => {
  console.log(req.body)
      db.none('INSERT INTO users (firstname, lastname, email, password) VALUES ($1, $2, $3, $4);', [firstname, lastname, cleanedEmail, hash])
      .then(() => {
-      // res.flash('success', 'User successfully created, please login.')
-      // res.flash('success', 'Good job!')
+      res.flash('success', 'User successfully created, please login.')
+      res.flash('success', 'Good job!')
        res.redirect('/users/login')
        // TODO: add success message
      })
