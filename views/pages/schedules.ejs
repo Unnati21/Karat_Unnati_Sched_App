@@ -23,7 +23,7 @@
         <a href="/schedules/new"><div class="btn btnGreen btn-triple">Add New Schedule</div></a>
       </div>-->
     </section>
-
+    
     <section class="schedule-box1">
       <table>
         <thead>
@@ -42,19 +42,19 @@
             <% for(let j = 1; j < weekday.length; j++) { %>
               <% let key = users[i].id + " " + j; %>
               <% if(typeof newArraySchedule[key + " start"] != 'undefined') { %>
-                <% if(userId == users[i].id && typeof day != 'undefined' && day == weekday[j]) { %>
+                <% if( typeof userId != 'undefined' && userId == users[i].id && typeof day != 'undefined' && day == j) { %>
                   <td class="new-record td-schedule">
                 <% }else{ %>
                   <td class="td-schedule">
                 <% } %>
                     <%# <div class="edit-schedule"><i class='far fa-edit'></i></div> %>
-                    <%# <div class="del-schedule"><i class="fa fa-trash-o"></i></div> %>
+                    <button type="button" id="DELETE_<%= users[i].id %>_<%= j %>"  class="del-schedule"><i class="fa fa-trash-o"></i></button>
                     <div><%= newArraySchedule[key + " start"] %></div>
                     <div><%= newArraySchedule[key + " end"] %></div>
                   </td>                
               <% }else{ %>
                 <td class="text-center">
-                  <a href="/schedules/<%= users[i].id + '/' + weekday[j] %>/new"><button class="s-btn-add">+</button></a>
+                  <a href="/schedules/<%= users[i].id + '/' + j %>/new"><button class="s-btn-add">+</button></a>
                 </td>
               <% } %>
             <% } %>
@@ -107,11 +107,39 @@
 
     <input type="text" name="showById" id="showById" value="<%= showById %>" hidden>
     <input type="text" name="userId" id="userId" value="<%= userId %>" hidden>
+    <form id="myform" method="POST" action="/">
+      <input type="text" id="user_id" name="user_id" hidden>
+      <input type="text" id="day" name="day" hidden>
+    </form>
 
     <%- include('../partials/footer'); %>
   </main>
 
   <!-- footer -->
+  <script>
+    if (document.addEventListener) document.addEventListener("click", handleClick, false)
+    else if (document.attachEvent) document.attachEvent("onclick", handleClick)
+  
+    function handleClick(event) {
+      event = event || window.event;
+      event.target = event.target || event.srcElement;
+  
+      const element = event.target;
+      let e = null
+
+      if(element.type == 'button') e = element
+      if(element.parentNode.type == 'button') e = element.parentNode
+
+      if(e != null) {
+        const action = e.id.split("_")
+        
+        document.getElementById("user_id").value = action[1]
+        document.getElementById("day").value = action[2]
+        document.getElementById("myform").action = "/schedules?_method=" + action[0]
+        document.getElementById("myform").submit()
+      }
+    }
+  </script>
   <script src="/functions.js"></script>
 </body>
 </html>

@@ -387,14 +387,16 @@ nav {
   width: 26px;
   padding-top: 2px;
   padding-bottom: 2px;
-  border-radius: 0px 0px 0px 10px;
+  border-radius: 0px 0px 0px 7px;
   font-size: 1.1rem;
   color: #cf1941;
-  /* background-color: #f7d9e0; */
+  background-color: #f3f3f3;
+  border: inherit;
 
   position: absolute;
-  top: 26px;
   right: 0px;
+  top: 0px;
+  /* top: 26px; */
 }
 
 /* || NEW-SCHEDULE PAGE */
@@ -476,7 +478,18 @@ nav {
   background: rgba(238, 65, 94, 0.1);
 }
 
-/* || LOGIN PAGE */
+.new-record {
+  background-color: #FFF;
+  animation-name: newRecord;
+  animation-duration: 4s;
+}
+
+@keyframes newRecord {
+  from {background-color: #f3a601;}
+  to {background-color: fff;}
+}
+
+/* || LOGIN & SIGNUP PAGE */
 
 .body-login, .body-signup {
   height: 100%;
@@ -544,6 +557,8 @@ nav {
   margin-left: auto;
   margin-right: auto;
 }
+
+
 
 /* USER PROFILE PAGE */
 .user-info td {

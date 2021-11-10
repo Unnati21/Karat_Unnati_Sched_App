@@ -17,18 +17,16 @@ router.get('/', redirectToLogin, (req, res) => {
     const users = data[0]
     const schedules = data[1]
     const newArraySchedule = rearrangeArraySchedule(schedules)
-    const days = getWorkingDays(schedules)
 
     res.render('pages/schedules', {
       users,
       schedules,
       newArraySchedule,
-      days,
       weekday,
       showById: false,
-      userId: 'x'
+      userId: (req.session.flash.userId? req.session.flash.userId : 'x'),
+      day: (req.session.flash.day? req.session.flash.day : 'x')
     })
-
   })
 
   .catch((error) => {
@@ -121,6 +119,9 @@ router.post('/', (req, res) => {
 
   .then(sid => {
     // res.redirect(`/users/${userId}/${day}/schedules`)
+    req.flash("userId", userId)
+    req.flash("day", day)
+
     res.redirect(`/schedules`)
   })
 
@@ -133,6 +134,22 @@ router.post('/', (req, res) => {
   })
 })
 
+router.delete('/', (req, res) => {
+  const userId = req.body.user_id
+  const day = req.body.day
+  console.log(userId)
+  console.log(day)
 
+  db.none('DELETE FROM schedules WHERE user_id=$1 AND day=$2;', [userId, day])
+
+  .then(() => {
+    res.redirect('/schedules')
+  })
+
+  .catch((err) => {
+    console.log(err)
+    res.send(err.message)
+  })
+})
 
 module.exports = router
