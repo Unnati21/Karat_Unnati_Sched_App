@@ -41,7 +41,7 @@
             <td class="text-left"><%= users[i].firstname %></td>
             <% for(let j = 0; j < days.length; j++) { %>
               <% let key = users[i].id + " " + days[j]; %>
-              <% if(typeof newArraySchedule[key + " start"] != 'undefined') { %>
+              <% if(typeof newArraySchedule[users[i].id + " " + days[j] + " start"] != 'undefined') { %>
                 <% if(userId == users[i].id && typeof day != 'undefined' && day == days[j]) { %>
                   <td class="new-record td-schedule">
                 <% }else{ %>

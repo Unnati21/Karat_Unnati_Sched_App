@@ -1,4 +1,5 @@
 const express = require('express')
+const { redirectToLogin } = require('./middleware/redirect')
 const db = require('../database')
 const {
   getWorkingDays,
@@ -8,7 +9,7 @@ const {
 
 const router = express.Router()
 
-router.get('/', (req, res) => {
+router.get('/', redirectToLogin, (req, res) => {
   const getUsers = db.any('SELECT * FROM users')
   const getSchedules = db.any("SELECT user_id, firstname, day, TO_CHAR(start_at, 'HH.MIam') start_at, TO_CHAR(end_at, 'HH.MIam') end_at FROM schedules s JOIN users u ON u.id=s.user_id ORDER BY user_id, day");
 
@@ -39,7 +40,7 @@ router.get('/', (req, res) => {
   
 })
 
-router.get('/:id/:day/new', (req, res) => {
+router.get('/:id/:day/new', redirectToLogin, (req, res) => {
   let user_id = Number.parseInt(req.params.id)
   let day = Number.parseInt(req.params.day)
   let matchUser = false
@@ -78,7 +79,7 @@ router.get('/:id/:day/new', (req, res) => {
   })
 })
 
-router.get('/new', (req, res) => {
+router.get('/new', redirectToLogin, (req, res) => {
   db.any('SELECT * FROM users')
 
   .then(users => {

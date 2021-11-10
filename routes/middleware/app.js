@@ -1,6 +1,6 @@
 const weekday = ['','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
-function rearrangeArraySchedule(schedules) {
+const rearrangeArraySchedule = (schedules) => {
 
   const newArray = []
   let userId, day, time, start_at, end_at
@@ -33,7 +33,7 @@ function rearrangeArraySchedule(schedules) {
   return newArray
 }
 
-function getWorkingDays(schedules) {
+const getWorkingDays = (schedules) => {
   const days = []
   for(let i = 0; i < schedules.length; i++){
     if(days.includes(schedules[i].day) == false) {
@@ -46,7 +46,7 @@ function getWorkingDays(schedules) {
   return days;
 }
 
-function getUsers(schedules) {
+const getUsers = (schedules) => {
   const users = []
 
   for(let i = 0; i < schedules.length; i++){
@@ -73,7 +73,7 @@ function getUsers(schedules) {
   return users;
 }
 
-function validateInput(input) {
+const validateInput = (input) => {
   const regex = {
     firstname: /^[A-Za-zÀ-ÖØ-öø-ÿ -'\.]+$/,
     lastname: /^[A-Za-zÀ-ÖØ-öø-ÿ -'\.]+$/,
