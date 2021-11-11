@@ -15,14 +15,17 @@
   <%- include('../partials/header'); %>
 
   <main>
-
     <div class="title">
       <h1>Add New Schedule</h1>
     </div>
 
     <form method="POST" action="/schedules">
       <section class="card-detail">
-      
+        <% if(typeof error != 'undefined' && error.length > 0) { %>
+          <% for(let i = 0; i < error.length; i++) { %>
+            <b class="error-msg"><%= error[i] %></b>
+          <% } %>
+        <% } %>
         <div class="schedule-info">
           <p class="txt-field">Name: </p>
           <p class="txt-value">

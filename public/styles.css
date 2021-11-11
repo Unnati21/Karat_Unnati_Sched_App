@@ -475,7 +475,10 @@ nav {
 .error-msg {
   margin-top: 0px;
   margin-bottom: 5px;
-  background: rgba(238, 65, 94, 0.1);
+  margin-left: 15px;
+  padding: 5px 15px;
+  color: rgb(44, 2, 141);
+  background: rgba(209, 65, 238, 0.1);
 }
 
 .new-record {

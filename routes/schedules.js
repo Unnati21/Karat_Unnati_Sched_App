@@ -83,13 +83,14 @@ router.get('/new', redirectToLogin, (req, res) => {
   .then(users => {
     res.render('pages/new-schedule', {
       users,
-      weekday
+      weekday,
+      error: req.flash("error")
     })
   })
 
   .catch((error) => {
     console.log(error)
-    res.redirect("/error?message=" + error)
+    res.redirect("/error?message=" + error.message)
   })
 })
 
@@ -115,22 +116,34 @@ router.post('/', (req, res) => {
   start_at = "2000-01-01 " + start_at_hh + ":" + start_at_mm
   end_at = "2000-01-01 " + end_at_hh + ":" + end_at_mm
 
-  db.none('INSERT INTO schedules (user_id, day, start_at, end_at) VALUES ($1, $2, $3, $4);', [userId, day, start_at, end_at])
+  db.oneOrNone("SELECT firstname, TO_CHAR(start_at, 'HH.MIam') start_at, TO_CHAR(end_at, 'HH.MIam') end_at FROM schedules s JOIN users u ON u.id=s.user_id WHERE s.user_id=$1 AND s.day=$2", [userId, day])
 
-  .then(sid => {
-    // res.redirect(`/users/${userId}/${day}/schedules`)
-    req.flash("userId", userId)
-    req.flash("day", day)
+  .then(schedule => {
+    console.log("Love")
+    console.log(schedule)
+    if(schedule) {
+      req.flash("error", `* Record exists! ${schedule.firstname} has already been assigned to work on ${weekday[day]}.`)
+      return res.redirect("/schedules/new")
+    }else{
+      db.none('INSERT INTO schedules (user_id, day, start_at, end_at) VALUES ($1, $2, $3, $4);', [userId, day, start_at, end_at])
 
-    res.redirect(`/schedules`)
+      .then(sid => {
+        req.flash("userId", userId)
+        req.flash("day", day)
+    
+        res.redirect(`/schedules`)
+      })
+    
+      .catch(error => {
+        console.log(error)
+        res.redirect("/error?message=" + error.message)
+      })
+    }
   })
 
   .catch(error => {
     console.log(error)
     res.redirect("/error?message=" + error.message)
-    // res.render('pages/error', {
-    //   message: error.message
-    // })
   })
 })
 
