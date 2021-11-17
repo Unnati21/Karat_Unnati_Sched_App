@@ -132,11 +132,18 @@
 
       if(e != null) {
         const action = e.id.split("_")
-        
-        document.getElementById("user_id").value = action[1]
-        document.getElementById("day").value = action[2]
-        document.getElementById("myform").action = "/schedules?_method=" + action[0]
-        document.getElementById("myform").submit()
+        const name = "Name: " + e.parentNode.parentNode.children[0].innerText
+        const day = "Day: " + e.parentNode.parentNode.parentNode.parentNode.children[0].children[0].children[action[2]].innerText
+        const msg = `Are you sure you want to delete this user account? This process cannot be undone.\n\n${name}\n${day}`
+
+        if(confirm(msg) === true) {
+          const action = e.id.split("_")
+          
+          document.getElementById("user_id").value = action[1]
+          document.getElementById("day").value = action[2]
+          document.getElementById("myform").action = "/schedules?_method=" + action[0]
+          document.getElementById("myform").submit()
+        }
       }
     }
   </script>
